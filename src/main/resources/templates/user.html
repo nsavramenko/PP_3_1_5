@@ -1,11 +1,56 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="UTF-8"/>
+    <title>View User</title>
 </head>
 <body>
-<h1>User, welcome spring boot security page!</h1>
-
-
+<h1>View User</h1>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+    <a th:href="@{/admin}">Back to User List</a>
+</div>
+<br/><br/>
+<div th:if="${user}">
+    <table border="0">
+        <tr>
+            <td>ID</td>
+            <td>:</td>
+            <td th:utext="${user.getId()}">...</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>:</td>
+            <td th:utext="${user.getUsername()}">...</td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>:</td>
+            <td th:utext="${user.getPassword()}">...</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>:</td>
+            <td th:utext="${user.getEmail()}">...</td>
+        </tr>
+        <tr>
+            <td>Roles</td>
+            <td>:</td>
+            <td th:utext="${user.getRoles()}">...</td>
+        </tr>
+    </table>
+    <br/><br/>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <div>
+            <a th:href="@{/admin/{id}/edit(id=${user.getId()})}">
+                <input type="submit" value="Edit"/>
+            </a>
+            <br/><br/>
+            <form th:method="DELETE" th:action="@{/admin/{id}(id=${user.getId()})}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </div>
+    </div>
+</div>
+<p><a th:href="@{/logout}">Logout</a></p>
 </body>
 </html>
