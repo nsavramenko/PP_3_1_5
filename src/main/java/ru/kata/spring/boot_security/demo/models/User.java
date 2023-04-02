@@ -16,11 +16,12 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
-
+    private String surname;
+    private Integer age;
     private String email;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany /*!NB! default-type -> Lazy loading (fetch = FetchType.LAZY) */
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -30,9 +31,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String username, String password, String email, Collection<Role> roles) {
+    public User(String username, String surname, String password, Integer age, String email, Collection<Role> roles) {
         this.username = username;
+        this.surname = surname;
         this.password = password;
+        this.age = age;
         this.email = email;
         this.roles = roles;
     }
@@ -98,6 +101,22 @@ public class User implements UserDetails {
 
     public Collection<Role> getRoles() {
         return roles;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public void setRoles(Collection<Role> roles) {

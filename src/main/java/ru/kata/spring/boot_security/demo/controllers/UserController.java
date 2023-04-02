@@ -9,7 +9,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
     private final UserService userService;
 
@@ -17,11 +17,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public String showUser(Principal principal, Model model) {
-        User user = userService.findByUsername(principal.getName());
+    @GetMapping("/user")
+    public String showUser(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", userService.getUser(user.getId()));
         return "user";
+
     }
 
 }

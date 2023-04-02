@@ -12,9 +12,9 @@ import java.util.Set;
 
 /**
  *
- * admin=admin
- * user=user
- * user2=user
+ * admin@mail.com=admin
+ * user@mail.com=user
+ * user2@mail.com=user
  *
  */
 
@@ -46,9 +46,9 @@ public class SpringBootSecurityDemoApplication  implements CommandLineRunner {
         adminRoles.add(userR);
         userRoles.add(userR);
 
-        User userAdmin = new User("admin", "$2a$10$P0uwt64MqHhajyz8ct/dZ.G1HgeV130LOAPWp.QZObcC2BPNFjtUa", "admin@mail.com", adminRoles);
-        User userUser = new User("user", "$2a$10$Qc.EX9NKznnqloi6thc9WuKsuv5pYQR3oolsI6oN/y1I/.Qx2SxfK", "user@mail.com", userRoles);
-        User userUser2 = new User("user2", "$2a$10$Qc.EX9NKznnqloi6thc9WuKsuv5pYQR3oolsI6oN/y1I/.Qx2SxfK", "user2@mail.com", userRoles);
+        User userAdmin = new User("admin", "admin", "$2a$10$P0uwt64MqHhajyz8ct/dZ.G1HgeV130LOAPWp.QZObcC2BPNFjtUa", 25, "admin@mail.com", adminRoles);
+        User userUser = new User("user", "user", "$2a$10$Qc.EX9NKznnqloi6thc9WuKsuv5pYQR3oolsI6oN/y1I/.Qx2SxfK", 19, "user@mail.com", userRoles);
+        User userUser2 = new User("user2", "user2", "$2a$10$Qc.EX9NKznnqloi6thc9WuKsuv5pYQR3oolsI6oN/y1I/.Qx2SxfK", 28, "user2@mail.com", userRoles);
         userRepository.save(userAdmin);
         userRepository.save(userUser);
         userRepository.save(userUser2);

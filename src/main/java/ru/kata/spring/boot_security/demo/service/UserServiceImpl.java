@@ -24,19 +24,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+
     @Transactional
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+            throw new UsernameNotFoundException(String.format("User '%s' not found", email));
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
+        return new org.springframework.security.core.userdetails.User(user.getEmail(),
                                                                       user.getPassword(),
                                                                       user.getAuthorities());
     }
@@ -44,9 +45,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
+        User userFromDb = userRepository.findByEmail(user.getEmail());
         if (userFromDb != null) {
-            throw new UsernameNotFoundException(String.format("User '%s' is already exists", user.getUsername()));
+            throw new UsernameNotFoundException(String.format("User '%s' is already exists", user.getEmail()));
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
