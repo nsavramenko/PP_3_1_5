@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -16,24 +17,24 @@ public class User implements UserDetails {
     private String username;
 
     private String password;
-    private String surname;
+    private String lastname;
     private Integer age;
     private String email;
 
-
     @ManyToMany /*!NB! default-type -> Lazy loading (fetch = FetchType.LAZY) */
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
 
     public User() {
     }
 
-    public User(String username, String surname, String password, Integer age, String email, Collection<Role> roles) {
+    public User(String username, String lastname, String password, Integer age, String email, Set<Role> roles) {
         this.username = username;
-        this.surname = surname;
+        this.lastname = lastname;
         this.password = password;
         this.age = age;
         this.email = email;
@@ -99,12 +100,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
     public Integer getAge() {
@@ -115,11 +116,11 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
